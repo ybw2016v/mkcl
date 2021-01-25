@@ -59,41 +59,42 @@ class DogNotes(object):
         ooui=self.dogdb.fetchall()
         if len(ooui)==0:
             return 'error'
-        dogres = list(self.dogdb.fetchall()[0])
+        else:
+            dogres = list(ooui[0])
 
-        self.dogdb.execute(
-            """select id from note_reaction where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        self.dogdb.execute(
-            """select id from note_favorite where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        self.dogdb.execute(
-            """select id from clip_note where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        
-        self.dogdb.execute(
-            """select id from note_unread where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        self.dogdb.execute(
-            """select id from note_watching where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        self.dogdb.execute(
-            """select id from note_reaction where "noteId" = %s""", [dogid])
-        dogres2a = self.dogdb.fetchall()
-        if len(dogres2a)!=0:
-            dogfleg=True
-        dogres.append(dogfleg)
-        return dogres
+            self.dogdb.execute(
+                """select id from note_reaction where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            self.dogdb.execute(
+                """select id from note_favorite where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            self.dogdb.execute(
+                """select id from clip_note where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            
+            self.dogdb.execute(
+                """select id from note_unread where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            self.dogdb.execute(
+                """select id from note_watching where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            self.dogdb.execute(
+                """select id from note_reaction where "noteId" = %s""", [dogid])
+            dogres2a = self.dogdb.fetchall()
+            if len(dogres2a)!=0:
+                dogfleg=True
+            dogres.append(dogfleg)
+            return dogres
 
     def get_dognote_beinfo(self, dogid):
         """
