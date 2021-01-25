@@ -55,8 +55,10 @@ class DogNotes(object):
         获取单个帖子的相关信息
         """
         dogfleg=False
-        self.dogdb.execute(
-            """select "userId","userHost",mentions,"renoteId","replyId","createdAt","fileIds","hasPoll" from note where "id" = %s""", [dogid])
+        self.dogdb.execute("""select "userId","userHost",mentions,"renoteId","replyId","createdAt","fileIds","hasPoll" from note where "id" = %s""", [dogid])
+        ooui=self.dogdb.fetchall()
+        if len(ooui)==0:
+            return 'error'
         dogres = list(self.dogdb.fetchall()[0])
 
         self.dogdb.execute(
@@ -127,7 +129,10 @@ class DogNotes(object):
                 # print('error {}重复'.format(did))
             # else:
             lindog = self.get_dognote_info(did)
-            skidog[did] = list(lindog)
+            if lindog=='error':
+                print('出现错误 id {}'.format(did))
+            else:
+                skidog[did] = list(lindog)
             if lindog[3] is not None:
                 zhidog.append(lindog[3])
             if lindog[4] is not None:
