@@ -11,12 +11,16 @@ class DogFiles(object):
 
     def get_dogfiles_n(self, dogid):
         """
-        获取在一段时间内所有的帖子id列表
+        媒体文件引用数量
         """
-        self.dogdb.execute(
-            """select id from note where  %s = any("fileIds");""", [dogid])
+        self.dogdb.execute("""select id from note where  %s = any("fileIds");""", [dogid])
         dogres = self.dogdb.fetchall()
         return len(dogres)
 
-
-
+    def is_dogfile_local(self, dogid):
+        """
+        判断是否为本地存储文件
+        """
+        self.dogdb.execute("""select "isLink" from drive_file where  id = %s ;""", [dogid])
+        dogres = self.dogdb.fetchall()
+        return dogres[0][0]

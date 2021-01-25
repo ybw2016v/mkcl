@@ -50,14 +50,10 @@ class DogR(object):
 
 
 def dogclean(dogdbi, dogri, dogs, doge):
-    r = redis.Redis(host=dogri[0], port=dogri[1], db=dogri[3],
-                    password=dogri[2], decode_responses=True)
-    pgdog = psycopg2.connect(
-        database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
-    stdog = datetime.datetime.strptime(
-        dogs, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
-    endog = datetime.datetime.strptime(
-        doge, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
+    r = redis.Redis(host=dogri[0], port=dogri[1], db=dogri[3], password=dogri[2], decode_responses=True)
+    pgdog = psycopg2.connect(database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    stdog = datetime.datetime.strptime(dogs, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
+    endog = datetime.datetime.strptime(doge, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
     idog = DogNotes(pgdog)
     fdog = DogFiles(pgdog)
     sdf = idog.get_dognotes_list(stdog, endog)
@@ -92,20 +88,17 @@ def dogclean(dogdbi, dogri, dogs, doge):
                 pass
             for ffd in dog_file_id:
                 rrr = fdog.get_dogfiles_n(ffd)
-                # print(rrr)
-                # sio=input()
-                if rrr > 1:
-                    print("特殊情况：{} 不予删除".format(ffd))
+                kkk = fdog.is_dogfile_local(ffd)
+                if rrr > 1 or not kkk:
+                    print("特殊情况：{} 不予删除{}".format(ffd, kkk))
                 else:
-                    # print('正常')
-                    # print(rrr)
+
                     r.sadd('dogfile', ffd)
         for dogi in dog_id_lib:
             r.srem('doglist', dogi)
             pass
         dogn = r.srandmember('doglist')
     deldog = DelDog(pgdog)
-    # sdfg=r.smembers('doglist2')
     dogn2 = r.srandmember('doglist2')
     dog01 = 0
     dog02 = 0
@@ -125,6 +118,4 @@ def dogclean(dogdbi, dogri, dogs, doge):
         dogn3 = r.srandmember('dogfile')
     Dogr.close()
     print('共移除{}帖子 {}文件'.format(dog01, dog02))
-    # print(sdfg)
-
     pass
