@@ -1,5 +1,5 @@
 pytz
 psycopg2_binary
 redis
-psycopg2
-PyYAML
+requests
+
