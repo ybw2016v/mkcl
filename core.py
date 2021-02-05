@@ -6,6 +6,7 @@ import pytz
 from notes import DogNotes, DelDog
 from users import DogUser
 from files import DogFiles
+import requests as r
 
 
 class DogR(object):
@@ -118,4 +119,28 @@ def dogclean(dogdbi, dogri, dogs, doge):
         dogn3 = r.srandmember('dogfile')
     Dogr.close()
     print('共移除{}帖子 {}文件'.format(dog01, dog02))
-    pass
+    return '共清退{}帖子 {}文件'.format(dog01, dog02)
+    # print(sdfg)
+
+
+
+def post_dog_notes(urld, dogkey, dog_c):
+    url = urld+'api/notes/create'
+    key = dogkey
+    payload = {'text': dog_c, "localOnly": False, "visibility": "public", "viaMobile": False, "i": key}
+    res = r.post(url, json=payload)
+    return res.text
+
+
+
+def dog_post(dogdbi,url,text):
+    """
+    docstring
+    """
+    pgdog = psycopg2.connect(
+        database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    sjkdog=pgdog.cursor()
+    sjkdog.execute("""select token from public.user where "isAdmin" = true;""")
+    sjip=sjkdog.fetchall()[0][0]
+    sss=post_dog_notes(url,sjip,text)
+    print(sss)
