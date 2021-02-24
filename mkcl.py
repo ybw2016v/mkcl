@@ -43,8 +43,8 @@ dog_db_pass=dogy['db']['pass']
 
 dog_redis_host=dogy['redis']['host']
 dog_redis_port=dogy['redis']['port']
-dog_redis_pass=dogy['redis']['pass']
-dog_redis_db=dogy['redis']['db']
+dog_redis_pass=dogy['redis']['pass'] if ('pass' in dogy['redis']) else None
+dog_redis_db=dogy['redis']['db'] if ('db' in dogy['redis']) else None
 
 dog_url=dogy['url']
 
