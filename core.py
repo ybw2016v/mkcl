@@ -78,8 +78,6 @@ def dogclean(dogdbi, dogri, dogs, doge):
                 dogf = dogf or True
             if dogc[5] > endog:
                 dogf = dogf or True
-                # print('超时:{}'.format(dogc))
-                pass
         for udog in dog_users_id:
             dog_info = Dogr.get_info(udog)
             dogf = dogf or dog_info
@@ -93,11 +91,11 @@ def dogclean(dogdbi, dogri, dogs, doge):
                 if rrr > 1 or not kkk:
                     print("特殊情况：{} 不予删除{}".format(ffd, kkk))
                 else:
-
                     r.sadd('dogfile', ffd)
         for dogi in dog_id_lib:
             r.srem('doglist', dogi)
-            pass
+        if sdfp not in dog_id_lib:
+            r.srem('doglist', sdfp)
         dogn = r.srandmember('doglist')
     deldog = DelDog(pgdog)
     dogn2 = r.srandmember('doglist2')
