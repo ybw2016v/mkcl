@@ -138,7 +138,7 @@ def dog_post(dogdbi,url,text):
     pgdog = psycopg2.connect(
         database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
     sjkdog=pgdog.cursor()
-    sjkdog.execute("""select token from public.user where "isAdmin" = true;""")
+    sjkdog.execute("""select token from public.user where "isRoot" = true;""")
     sjip=sjkdog.fetchall()[0][0]
     sss=post_dog_notes(url,sjip,text)
     print(sss)
