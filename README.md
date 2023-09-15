@@ -35,7 +35,7 @@
 python3 mkcl.py [-h] [-c PATH] [-d DAY] [-s DATE]
 ```
 
-`-c` 为misskey配置文件路径，默认`.config/default.yml` `-d` 为清理结束距今天数，默认为28 `-s`为清理开始日期默认为1998-03-16
+`-c` 为misskey配置文件路径，默认`.config/default.yml` `-d` 为清理结束距今天数，默认为28 `-s`为清理开始日期默认为2021-01-01
 
 例子:
 
