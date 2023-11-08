@@ -53,10 +53,11 @@ class DogR(object):
 
 def dogclean(dogdbi, dogri, dogs, doge):
     r = redis.Redis(host=dogri[0], port=dogri[1], db=dogri[3], password=dogri[2], decode_responses=True)
-    pgdog = psycopg.connect(database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    # pgdog = psycopg.connect(database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    pgdog = psycopg.connect("dbname={} user={} password={} host={} port={}".format( dogdbi[2], dogdbi[3], dogdbi[4], dogdbi[0], dogdbi[1]))
     stdog = datetime.datetime.strptime(dogs, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
     endog = datetime.datetime.strptime(doge, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
-    endid= genid(time.mktime(endog))
+    endid= genid(int(endog.timestamp()*1000))
     idog = DogNotes(pgdog)
     fdog = DogFiles(pgdog)
     sdf = idog.get_dognotes_list(stdog, endog)
@@ -137,8 +138,7 @@ def dog_post(dogdbi,url,text):
     """
     docstring
     """
-    pgdog = psycopg2.connect(
-        database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    pgdog = psycopg.connect("dbname={} user={} password={} host={} port={}".format( dogdbi[2], dogdbi[3], dogdbi[4], dogdbi[0], dogdbi[1]))
     sjkdog=pgdog.cursor()
     sjkdog.execute("""select token from public.user where "isRoot" = true;""")
     sjip=sjkdog.fetchall()[0][0]

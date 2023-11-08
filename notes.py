@@ -16,8 +16,8 @@ class DogNotes(object):
         """
         获取在一段时间内所有的帖子id列表
         """
-        stid = genid(time.mktime(startdog))
-        edid = genid(time.mktime(enddog))
+        stid = genid(int(startdog.timestamp()*1000))
+        edid = genid(int(enddog.timestamp()*1000)) #enddog.
         self.dogdb.execute(
             """select id from note where "id" < %s and "id" > %s;""", [edid, stid])
         dogres = self.dogdb.fetchall()
@@ -34,7 +34,7 @@ class DogNotes(object):
         if len(ooui)==0:
             return 'error'
         else:
-            dogres = {"id":dogid,"info":ooui[0][0],"host":ooui[0][1],"mentions":ooui[0][2],"renoteId":ooui[0][3],"replyId":ooui[0][4],"fileIds":ooui[0][5],"hasPoll":ooui[0][6]}
+            dogres = {"id":dogid,"userId":ooui[0][0],"host":ooui[0][1],"mentions":ooui[0][2],"renoteId":ooui[0][3],"replyId":ooui[0][4],"fileIds":ooui[0][5],"hasPoll":ooui[0][6]}
 
             self.dogdb.execute(
                 """select id from note_reaction where "noteId" = %s""", [dogid])
@@ -107,7 +107,7 @@ class DogNotes(object):
             if lindog=='error':
                 print('出现错误 id {}'.format(did))
             else:
-                skidog[did] = list(lindog)
+                skidog[did] = lindog
             if lindog["renoteId"] is not None:
                 zhidog.append(lindog["renoteId"])
             if lindog["replyId"] is not None:
