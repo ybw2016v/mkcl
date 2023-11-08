@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg
 import redis
 
 import datetime
@@ -52,7 +52,7 @@ class DogR(object):
 
 def dogclean(dogdbi, dogri, dogs, doge):
     r = redis.Redis(host=dogri[0], port=dogri[1], db=dogri[3], password=dogri[2], decode_responses=True)
-    pgdog = psycopg2.connect(database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
+    pgdog = psycopg.connect(database=dogdbi[2], user=dogdbi[3], password=dogdbi[4], host=dogdbi[0], port=dogdbi[1])
     stdog = datetime.datetime.strptime(dogs, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
     endog = datetime.datetime.strptime(doge, '%Y-%m-%d').replace(tzinfo=pytz.timezone('UTC'))
     idog = DogNotes(pgdog)

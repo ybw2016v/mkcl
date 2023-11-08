@@ -19,7 +19,7 @@ class DogNotes(object):
         stid = genid(time.mktime(startdog))
         edid = genid(time.mktime(enddog))
         self.dogdb.execute(
-            """select id from note where "id" < %s and "createdAt" > %s;""", [edid, stid])
+            """select id from note where "id" < %s and "id" > %s;""", [edid, stid])
         dogres = self.dogdb.fetchall()
         pdogres = list(map(lambda x: x[0], dogres))
         return pdogres
@@ -34,7 +34,7 @@ class DogNotes(object):
         if len(ooui)==0:
             return 'error'
         else:
-            dogres = list(ooui[0])
+            dogres = {"id":dogid,"info":ooui[0][0],"host":ooui[0][1],"mentions":ooui[0][2],"renoteId":ooui[0][3],"replyId":ooui[0][4],"fileIds":ooui[0][5],"hasPoll":ooui[0][6]}
 
             self.dogdb.execute(
                 """select id from note_reaction where "noteId" = %s""", [dogid])
@@ -67,7 +67,7 @@ class DogNotes(object):
             dogres2a = self.dogdb.fetchall()
             if len(dogres2a)!=0:
                 dogfleg=True
-            dogres.append(dogfleg)
+            dogres["dogfleg"]=dogfleg
             return dogres
 
     def get_dognote_beinfo(self, dogid):
@@ -108,10 +108,10 @@ class DogNotes(object):
                 print('出现错误 id {}'.format(did))
             else:
                 skidog[did] = list(lindog)
-            if lindog[3] is not None:
-                zhidog.append(lindog[3])
-            if lindog[4] is not None:
-                zhidog.append(lindog[4])
+            if lindog["renoteId"] is not None:
+                zhidog.append(lindog["renoteId"])
+            if lindog["replyId"] is not None:
+                zhidog.append(lindog["replyId"])
             beidog = self.get_dognote_beinfo(did)
             zhidog = zhidog+beidog
         # print('循环完成')
