@@ -29,7 +29,7 @@ else:
     erydog = str(time.strftime('%Y-%m-%d', dogday))
     sdog = dogc.start
 dogfile = open(dogc.config)
-dogy = yaml.load(dogfile)
+dogy = yaml.load(dogfile, Loader=yaml.FullLoader)
 dogfile.close()
 
 idtype = dogy["id"]
