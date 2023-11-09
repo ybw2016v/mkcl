@@ -42,3 +42,11 @@ python3 mkcl.py [-h] [-c PATH] [-d DAY] [-s DATE]
 ``` bash
 python mkcl.py -d 50 -c config.yml -s 2020-12-01
 ```
+## 注意
+
+`2023.10.0`版本后misskey数据库有变动，需下载最新版本mkcl并安装依赖。
+
+```
+pip install -r requirements.txt
+```
+
