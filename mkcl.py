@@ -3,6 +3,7 @@ import argparse
 import time
 import datetime
 from core import dogclean, dog_post
+from chart import cleanchart
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--config', metavar='PATH', help='Path to misskey configuration file', action='store', default='.config/default.yml')
@@ -11,8 +12,13 @@ parser.add_argument('-s', '--start', metavar='DATE', help='The days between now 
 parser.add_argument('-w', '--week', metavar='WEEK', help='Week Mode', action='store', type=int)
 parser.add_argument('-m', '--month', metavar='MONTH', help='30 days Mode', action='store', type=int)
 parser.add_argument('-n', '--nopost', help='No Post Mode', action='store_true')
+parser.add_argument('-chart','--chart',metavar='CHART', help='Clean Chart days', action='store', type=int)
+parser.add_argument('-chart_only','--chart_only',metavar='CHARTON', help='Clean Chart days', action='store', type=int)
 
 dogc = parser.parse_args()
+
+
+
 
 if dogc.week is not None:
     dogday = time.localtime(time.time()-60*60*24*7*dogc.week)
@@ -50,6 +56,16 @@ dog_redis_pass = dogy['redis']['pass'] if ('pass' in dogy['redis']) else None
 dog_redis_db = dogy['redis']['db'] if ('db' in dogy['redis']) else None
 
 dog_url = dogy['url']
+
+if dogc.charton is not None:
+    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.chart)
+    strdogg = '\n清理部分图表数据成功'
+    if dogc.nopost is False:
+        dog_post([dog_db_host, dog_db_port, dog_db_db,
+              dog_db_user, dog_db_pass], dog_url, strdogg)
+    exit(0)
+
+
 a = datetime.datetime.now()
 resdoggg = dogclean([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass], [
                     dog_redis_host, dog_redis_port, dog_redis_pass, dog_redis_db], sdog, erydog)
@@ -57,6 +73,10 @@ b = datetime.datetime.now()
 d = b-a
 strdogg = '成功执行[冗余信息退出机制](https://github.com/ybw2016v/mkcl)\n清理范围:{}至{}\n{}\n用时{}s'.format(
     sdog, erydog, resdoggg, d.seconds)
+
+if dogc.chart is not None:
+    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.chart)
+    strdogg = strdogg + '\n清理部分图表数据成功'
 
 if dogc.nopost is False:
     dog_post([dog_db_host, dog_db_port, dog_db_db,

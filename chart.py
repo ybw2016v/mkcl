@@ -1,4 +1,13 @@
 import time
+import psycopg
+
+def cleancgart(dogdbi,day):
+    """
+    删除指定天数前的chart数据
+    """
+    pgdog = psycopg.connect("dbname={} user={} password={} host={} port={}".format( dogdbi[2], dogdbi[3], dogdbi[4], dogdbi[0], dogdbi[1]))
+    delchart(pgdog,day)
+    pass
 
 def delchart(db,day):
     """
