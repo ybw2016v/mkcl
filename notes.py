@@ -108,10 +108,10 @@ class DogNotes(object):
                 print('出现错误 id {}'.format(did))
             else:
                 skidog[did] = lindog
-            if lindog["renoteId"] is not None:
-                zhidog.append(lindog["renoteId"])
-            if lindog["replyId"] is not None:
-                zhidog.append(lindog["replyId"])
+                if lindog["renoteId"] is not None:
+                    zhidog.append(lindog["renoteId"])
+                if lindog["replyId"] is not None:
+                    zhidog.append(lindog["replyId"])
             beidog = self.get_dognote_beinfo(did)
             zhidog = zhidog+beidog
         # print('循环完成')
