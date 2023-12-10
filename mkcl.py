@@ -22,7 +22,7 @@ if dogc.week is not None:
 elif dogc.month is not None:
     dogday = time.localtime(time.time()-60*60*24*30*dogc.month)
     erydog = str(time.strftime('%Y-%m-%d', dogday))
-    startdog = time.localtime(time.time()-60*60*24*30*(dogc.week+1))
+    startdog = time.localtime(time.time()-60*60*24*30*(dogc.month+1))
     sdog = str(time.strftime('%Y-%m-%d', startdog))
 else:
     dogday = time.localtime(time.time()-60*60*24*dogc.day)
