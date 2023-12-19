@@ -1,7 +1,7 @@
 import time
 import psycopg
 
-def cleancgart(dogdbi,day):
+def cleanchart(dogdbi,day):
     """
     删除指定天数前的chart数据
     """
