@@ -58,7 +58,7 @@ dog_redis_db = dogy['redis']['db'] if ('db' in dogy['redis']) else None
 dog_url = dogy['url']
 
 if dogc.charton is not None:
-    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.chart)
+    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.charton)
     strdogg = '\n清理部分图表数据成功'
     if dogc.nopost is False:
         dog_post([dog_db_host, dog_db_port, dog_db_db,
