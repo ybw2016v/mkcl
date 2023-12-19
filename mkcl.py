@@ -12,8 +12,8 @@ parser.add_argument('-s', '--start', metavar='DATE', help='The days between now 
 parser.add_argument('-w', '--week', metavar='WEEK', help='Week Mode', action='store', type=int)
 parser.add_argument('-m', '--month', metavar='MONTH', help='30 days Mode', action='store', type=int)
 parser.add_argument('-n', '--nopost', help='No Post Mode', action='store_true')
-parser.add_argument('-chart','--chart',metavar='CHART', help='Clean Chart days', action='store', type=int)
-parser.add_argument('-chart_only','--chart_only',metavar='CHARTON', help='Clean Chart days', action='store', type=int)
+parser.add_argument('-chart','--chart',metavar='DAY', help='Clean Chart days', action='store', type=int)
+parser.add_argument('-chart_only','--chart_only',metavar='DAY', help='Clean Chart days', action='store', type=int)
 
 dogc = parser.parse_args()
 
@@ -57,8 +57,8 @@ dog_redis_db = dogy['redis']['db'] if ('db' in dogy['redis']) else None
 
 dog_url = dogy['url']
 
-if dogc.charton is not None:
-    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.charton)
+if dogc.chart_only is not None:
+    cleanchart([dog_db_host, dog_db_port, dog_db_db, dog_db_user, dog_db_pass],dogc.chart_only)
     strdogg = '\n清理部分图表数据成功'
     if dogc.nopost is False:
         dog_post([dog_db_host, dog_db_port, dog_db_db,
