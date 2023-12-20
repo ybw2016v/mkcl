@@ -100,6 +100,9 @@ def dogclean(dogdbi, dogri, dogs, doge):
         if sdfp not in dog_id_lib:
             r.srem('doglist', sdfp)
         dogn = r.srandmember('doglist')
+    sfilelist = fdog.get_sigle_files(stdog, endog)
+    for sfile in sfilelist:
+        r.sadd('dogfile', sfile)
     deldog = DelDog(pgdog)
     dogn2 = r.srandmember('doglist2')
     dog01 = 0
