@@ -14,7 +14,7 @@ parser.add_argument('-m', '--month', metavar='MONTH', help='30 days Mode', actio
 parser.add_argument('-n', '--nopost', help='No Post Mode', action='store_true')
 parser.add_argument('-chart','--chart',metavar='DAY', help='Clean Chart days', action='store', type=int)
 parser.add_argument('-chart_only','--chart_only',metavar='DAY', help='Clean Chart days', action='store', type=int)
-parser.add_argument('-sfile','--sfile',metavar='Single File Mode', help='Clean Single File Only', action='store_true')
+parser.add_argument('-sfile','--sfile', help='Clean Single File Only', action='store_true')
 
 dogc = parser.parse_args()
 
