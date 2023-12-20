@@ -27,7 +27,7 @@ class DogFiles(object):
         dogres = self.dogdb.fetchall()
         return dogres[0][0]
 
-    def get_sigle_files(self,, startdog, enddog):
+    def get_sigle_files(self,startdog, enddog):
         """
         获取在一段时间内所有的帖子id列表
         """
