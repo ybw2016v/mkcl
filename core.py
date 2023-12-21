@@ -123,7 +123,7 @@ def dogclean(dogdbi, dogri, dogs, doge):
         dogn3 = r.srandmember('dogfile')
 
     print("开始清理单独文件")
-    sfilelist = fdog.get_sigle_files(stdog, endog)
+    sfilelist = fdog.get_sigle_files_new(stdog, endog)
     for sfile in sfilelist:
         r.sadd('dogfile', sfile)
     dogn3 = r.srandmember('dogfile')
