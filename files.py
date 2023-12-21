@@ -55,7 +55,7 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
         while True:
             c=0
             self.dogdb.execute('''select drive_file."id" from drive_file 
-            LEFT where drive_file."id" between %s and %s and drive_file."isLink" is true and drive_file."userHost" is not null limit 100 offset %s''', [edid, stid,Num*100])
+             where drive_file."id" between %s and %s and drive_file."isLink" is true and drive_file."userHost" is not null limit 100 offset %s''', [edid, stid,Num*100])
             dogres = self.dogdb.fetchall()
             if len(dogres) == 0:
                 break
