@@ -100,9 +100,9 @@ def dogclean(dogdbi, dogri, dogs, doge):
         if sdfp not in dog_id_lib:
             r.srem('doglist', sdfp)
         dogn = r.srandmember('doglist')
-    sfilelist = fdog.get_sigle_files(stdog, endog)
-    for sfile in sfilelist:
-        r.sadd('dogfile', sfile)
+    # sfilelist = fdog.get_sigle_files(stdog, endog)
+    # for sfile in sfilelist:
+    #     r.sadd('dogfile', sfile)
     deldog = DelDog(pgdog)
     dogn2 = r.srandmember('doglist2')
     dog01 = 0
@@ -114,6 +114,18 @@ def dogclean(dogdbi, dogri, dogs, doge):
         print('已移除帖子 {}'.format(dogn2))
         dogn2 = r.srandmember('doglist2')
 
+    dogn3 = r.srandmember('dogfile')
+    while dogn3 is not None:
+        dog02 = dog02+1
+        deldog.del_dog_note(dogn3)
+        r.srem('dogfile', dogn3)
+        print('已移除文件 {}'.format(dogn3))
+        dogn3 = r.srandmember('dogfile')
+
+    print("开始清理单独文件")
+    sfilelist = fdog.get_sigle_files(stdog, endog)
+    for sfile in sfilelist:
+        r.sadd('dogfile', sfile)
     dogn3 = r.srandmember('dogfile')
     while dogn3 is not None:
         dog02 = dog02+1
