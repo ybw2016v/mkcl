@@ -33,6 +33,7 @@ class DogFiles(object):
         """
         stid = genid(int(startdog.timestamp()*1000))
         edid = genid(int(enddog.timestamp()*1000)) #enddog.
+        print("{}-{}".format(stid, edid))
         self.dogdb.execute(
             '''select drive_file."id" from drive_file 
 LEFT join note 
@@ -51,11 +52,12 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
         Num=0
         stid = genid(int(startdog.timestamp()*1000))
         edid = genid(int(enddog.timestamp()*1000))
+        print("{}-{}".format(stid, edid))
         reslist=[]
         while True:
             c=0
             self.dogdb.execute('''select drive_file."id" from drive_file 
-             where drive_file."id" between %s and %s and drive_file."isLink" is true and drive_file."userHost" is not null limit 100 offset %s''', [edid, stid,Num*100])
+             where drive_file."id" between %s and %s and drive_file."isLink" is true and drive_file."userHost" is not null limit 100 offset %s''', [stid, edid,Num*100])
             dogres = self.dogdb.fetchall()
             if len(dogres) == 0:
                 break
@@ -64,6 +66,7 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
                 if self.check_file_sigle(i):
                     reslist.append(i)
                     c+=1
+                    #print(i)
             Num+=1
             print("第{}页-{}".format(Num,c))
         return reslist
@@ -75,11 +78,13 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
         r=self.get_dogfiles_n(dogid)
         if r > 0:
             return False
-        self.dogdb.execute("""select "id" from public.user where  public.user."avatarId" = %s or public.user."bannerId" = %s limit 1 ;""", [dogid])
+        self.dogdb.execute("""select "id" from public.user where  public.user."avatarId" = %s or public.user."bannerId" = %s limit 1 ;""", [dogid,dogid])
         dogres = self.dogdb.fetchall()
         if len(dogres) == 0:
             return True
         else:
             return False
+
+
 
 
