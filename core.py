@@ -117,7 +117,7 @@ def dogclean(dogdbi, dogri, dogs, doge):
     dogn3 = r.srandmember('dogfile')
     while dogn3 is not None:
         dog02 = dog02+1
-        deldog.del_dog_note(dogn3)
+        deldog.del_dog_file(dogn3)
         r.srem('dogfile', dogn3)
         print('已移除文件 {}'.format(dogn3))
         dogn3 = r.srandmember('dogfile')
@@ -129,7 +129,7 @@ def dogclean(dogdbi, dogri, dogs, doge):
     dogn3 = r.srandmember('dogfile')
     while dogn3 is not None:
         dog02 = dog02+1
-        deldog.del_dog_note(dogn3)
+        deldog.del_dog_file(dogn3)
         r.srem('dogfile', dogn3)
         print('已移除文件 {}'.format(dogn3))
         dogn3 = r.srandmember('dogfile')
