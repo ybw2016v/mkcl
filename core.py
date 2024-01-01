@@ -7,7 +7,7 @@ import pytz
 from notes import DogNotes, DelDog
 from users import DogUser
 from files import DogFiles
-import requests as r
+import requests 
 from aix import genid
 
 class DogR(object):
@@ -93,8 +93,13 @@ def dogclean(dogdbi, dogri, dogs, doge):
                 kkk = fdog.is_dogfile_local(ffd)
                 if rrr > 1 or not kkk:
                     print("特殊情况：{} 不予删除{}".format(ffd, kkk))
+                    r.sadd('dogfile2',ffd)
                 else:
                     r.sadd('dogfile', ffd)
+        else:
+            for ffd in dog_file_id:
+                r.sadd('dogfile2',ffd)
+
         for dogi in dog_id_lib:
             r.srem('doglist', dogi)
         if sdfp not in dog_id_lib:
@@ -123,9 +128,9 @@ def dogclean(dogdbi, dogri, dogs, doge):
         dogn3 = r.srandmember('dogfile')
 
     print("开始清理单独文件")
-    sfilelist = fdog.get_sigle_files_new(stdog, endog)
-    for sfile in sfilelist:
-        r.sadd('dogfile', sfile)
+    fdog.get_sigle_files_new(stdog, endog,r)
+    # for sfile in sfilelist:
+    #     r.sadd('dogfile', sfile)
     dogn3 = r.srandmember('dogfile')
     while dogn3 is not None:
         dog02 = dog02+1
@@ -133,6 +138,7 @@ def dogclean(dogdbi, dogri, dogs, doge):
         r.srem('dogfile', dogn3)
         print('已移除文件 {}'.format(dogn3))
         dogn3 = r.srandmember('dogfile')
+    r.delete("dogfile2")
     Dogr.close()
     print('共移除{}帖子 {}文件'.format(dog01, dog02))
     return '共清退{}帖子 {}文件'.format(dog01, dog02)
@@ -144,7 +150,7 @@ def post_dog_notes(urld, dogkey, dog_c):
     url = urld+'api/notes/create'
     key = dogkey
     payload = {'text': dog_c, "localOnly": False, "visibility": "public", "viaMobile": False, "i": key}
-    res = r.post(url, json=payload)
+    res = requests.post(url, json=payload)
     return res.text
 
 

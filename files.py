@@ -45,7 +45,7 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
         pdogres = list(map(lambda x: x[0], dogres))
         return pdogres
 
-    def get_sigle_files_new(self,startdog, enddog):
+    def get_sigle_files_new(self,startdog, enddog,r):
         """
         获取在一段时间内所有的帖子id列表
         """
@@ -53,7 +53,7 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
         stid = genid(int(startdog.timestamp()*1000))
         edid = genid(int(enddog.timestamp()*1000))
         print("{}-{}".format(stid, edid))
-        reslist=[]
+        # reslist=[]
         while True:
             c=0
             self.dogdb.execute('''select drive_file."id" from drive_file 
@@ -63,13 +63,16 @@ where drive_file."id" < %s and drive_file."id" > %s and drive_file."isLink" is t
                 break
             pdogres = list(map(lambda x: x[0], dogres))
             for i in pdogres:
+                if r.sismember('dogfile2',i):
+                    continue
                 if self.check_file_sigle(i):
-                    reslist.append(i)
+                    r.sadd('dogfile',i)
+                    # reslist.append(i)
                     c+=1
                     #print(i)
             Num+=1
             print("第{}页-{}".format(Num,c))
-        return reslist
+        # return reslist
 
     def check_file_sigle(self, dogid):
         """
