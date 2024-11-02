@@ -62,11 +62,6 @@ class DogNotes(object):
             dogres2a = self.dogdb.fetchall()
             if len(dogres2a)!=0:
                 dogfleg=True
-            self.dogdb.execute(
-                """select id from note_reaction where "noteId" = %s""", [dogid])
-            dogres2a = self.dogdb.fetchall()
-            if len(dogres2a)!=0:
-                dogfleg=True
             dogres["dogfleg"]=dogfleg
             return dogres
 
